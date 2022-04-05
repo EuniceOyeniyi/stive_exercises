@@ -21,11 +21,11 @@ driver = webdriver.Chrome(my_driver)
 
 # san_fran = driver.find_element_by_xpath('//h2[@class="a-color-base headline truncate-2line"]')
 # print(san_fran.text)
-'''
-san_fran = driver.find_element_by_xpath('//div[@class="panel-body"]')
+# '''
+# san_fran = driver.find_element_by_xpath('//div[@class="panel-body"]')
 
-temp = san_fran.find_elements_by_xpath('//p[@class="temp temp-high"]')
+# temp = san_fran.find_elements_by_xpath('//p[@class="temp temp-high"]')
 
-for t in temp:
-    print(t.text)
-'''
+# for t in temp:
+#     print(t.text)
+# '''
