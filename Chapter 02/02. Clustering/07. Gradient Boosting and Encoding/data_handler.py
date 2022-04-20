@@ -16,5 +16,5 @@ def get_data(pth):
     x_train = ct.fit_transform(x_train)
     x_test = ct.transform(x_test)
 
-    return x_train, x_test, y_train, y_test, ct
+    return x_train, x_test, y_train, y_test, ct, data
 

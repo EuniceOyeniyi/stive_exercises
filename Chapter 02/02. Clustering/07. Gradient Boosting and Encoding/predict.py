@@ -1,7 +1,8 @@
-import numpy as np
+import pandas as pd
 from hmac import new
-from sklearn.ensemble import RandomForestRegressor
+import data_handler as dh
 import train as TR
+
 
 while True:
 
@@ -11,24 +12,18 @@ while True:
     sex = str(input("Indicate your gender \n"))
     region= str(input("which region do you stay?option:[southeast,northeast,southwest,northwest] \n"))
     bmi = float(input("what is your BMI \n"))
-    new_data = [age,sex,bmi,child,smoke,region]
+    data_input = [age,sex,bmi,child,smoke,region]
 
-    data = np.array(new_data).reshape(-6,6)
-    predi =TR.prediction(data)
+#     Preprocess
+    new_data = pd.DataFrame([data_input],columns=['age', 'sex', 'bmi','children','smoker','region'])
 
-   
-    print(predi)    
+    tree = TR.treemodel()
+    tanformer = TR.ct
+    final_data = tanformer.transform(new_data)
 
-    '''
-    Preprocess
-    predict
-    
-    '''
+#     predict
+    print(tree.prediction(final_data))
+
     break
 
 
-# data= new_data
-# perfomance = TR.cross_validation_score()
-# data = np.array([1.0, 0.0, 3.0, 52, 30.2, 1]).reshape(-6,6)
-# predi =TR.prediction(data)
-# print(predi)
