@@ -1,7 +1,7 @@
 import numpy as np
 from hmac import new
 from sklearn.ensemble import RandomForestRegressor
-import train as T
+import train as TR
 
 while True:
 
