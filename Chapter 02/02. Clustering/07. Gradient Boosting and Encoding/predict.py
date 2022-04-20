@@ -14,15 +14,13 @@ while True:
     bmi = float(input("what is your BMI \n"))
     data_input = [age,sex,bmi,child,smoke,region]
 
+    tree = TR.treemodel()
+
 #     Preprocess
     new_data = pd.DataFrame([data_input],columns=['age', 'sex', 'bmi','children','smoker','region'])
 
-    tree = TR.treemodel()
-    tanformer = TR.ct
-    final_data = tanformer.transform(new_data)
-
 #     predict
-    print(tree.prediction(final_data))
+    print(tree.prediction(new_data))
 
     break
 

@@ -68,8 +68,9 @@ class treemodel:
 
     def prediction(self,data):
         best_modelparams = self.gridsearch()
+        final_data = self.ct.transform(data)
         best_modelparams.fit(self.x_train,self.y_train)
-        pred = best_modelparams.predict(data)
+        pred = best_modelparams.predict(final_data)
 
         return pred
   
