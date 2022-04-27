@@ -23,40 +23,20 @@ from catboost import CatBoostClassifier
 from sklearn.linear_model import LogisticRegression
 
 
-data = pd.read_csv(r'data\heart.csv') 
-# (data.corr()['output'].sort_values().plot.barh())
-(data.corr()['output'].abs().sort_values().plot.barh())
-# plt.show()
-# exng       -0.436757
-# oldpeak    -0.430696
-# caa        -0.391724
-# thall      -0.344029
-# sex        -0.280937
-# age        -0.225439
-# trtbps     -0.144931
-# chol       -0.085239
-# fbs        -0.028046
-# restecg     0.137230
-# slp         0.345877
-# thalachh    0.421741
-# cp          0.433798
-# output      1.000000
+data = pd.read_csv('heart.csv') 
 
 
-# print(data.isnull().sum()) - no missing data
-
-# Build a data enhancer
 
 def data_enhance(data):
     org_data = data
-    for sex in data['sex'].unique():
-        sex_data = org_data[org_data['sex']==sex]
+    for sexs in data['sex'].unique():
+        sex_data = org_data[org_data['sex']==sexs]
         age_std = sex_data['age'].std()
         trtbps_std = sex_data['trtbps'].std()
         chol_std = sex_data['chol'].std()
         thalachh_std = sex_data['thalachh'].std()
         oldpeak_std = sex_data['oldpeak'].std()
-        for i in org_data[org_data['sex']==sex].index:
+        for i in org_data[org_data['sex']==sexs].index:
             if np.random.randint(2) == 1:
                 org_data['age'].values[i] += age_std/10
                 org_data['trtbps'].values[i] += trtbps_std/10
@@ -71,7 +51,7 @@ def data_enhance(data):
                 org_data['oldpeak'].values[i] -= oldpeak_std/10
 
     return org_data
-
+np.random.seed(0)
 gen = data_enhance(data)
 x = data.drop(['output'], axis=1) # features - train and val data
 y = data['output'] # target
@@ -90,25 +70,21 @@ y_train = pd.concat([y_train, enhanced_sample['output'] ])
 # print(y_train)
 
 # Make pipelines and transform
-num_pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='constant', fill_value=-999)),
-    ('scaler', StandardScaler())
-])
-cat_pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='most_frequent'))])
+num_pipeline = Pipeline([ ('scaler', StandardScaler()) ])
 
-tree_pipe = ColumnTransformer([('num', num_pipeline, num_vals), ('cat', cat_pipeline, cat_vals)], remainder='passthrough')
+
+tree_pipe = ColumnTransformer([('num', num_pipeline, num_vals)], remainder='passthrough')
 
 # Different classifiers
 classifiers = {
     "Decision Tree": DecisionTreeClassifier(random_state=0),
-    "Random Forest": RandomForestClassifier(random_state=0, n_estimators=100),
-    "Ada Boost": AdaBoostClassifier(random_state=0, n_estimators=100),
-    "Extra Trees": ExtraTreesClassifier(random_state=0, n_estimators=100),
-    "Gradient Boosting": GradientBoostingClassifier(random_state=0, n_estimators=100),
+    "Random Forest": RandomForestClassifier(random_state=0),
+    "Ada Boost": AdaBoostClassifier(random_state=0),
+    "Extra Trees": ExtraTreesClassifier(random_state=0),
+    "Gradient Boosting": GradientBoostingClassifier(random_state=0,),
     "XGBoost": XGBClassifier(),
-    "LightGBM": LGBMClassifier(random_state=0, n_estimators=100),
-    "Catboost": CatBoostClassifier(random_state=0, n_estimators=100),
+    "LightGBM": LGBMClassifier(random_state=0),
+    "Catboost": CatBoostClassifier(random_state=0),
     "Logistic Regression": LogisticRegression(random_state=0)
 }
 
@@ -136,16 +112,16 @@ for model_name, model in classifiers.items():
 
 results_order = results.sort_values(by=['Accuracy Score'], ascending=False, ignore_index=True)
 
-# print(results_order)
+print(results_order)
 
-def predictor(features):
+# def predictor(features):
 
-    best_model = classifiers.get("Extra Trees")
+#     best_model = classifiers.get("Extra Trees")
 
-    best_model.fit(x_train, y_train)
+#     best_model.fit(x_train, y_train)
 
-    preds = best_model.predict(features)
-    return preds
+#     preds = best_model.predict(features)
+#     return preds
 
 
 # STD
