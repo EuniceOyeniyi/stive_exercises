@@ -24,7 +24,7 @@ class Binary(nn.Module):
         x = self.sigmoid(self.hidden3(x))
         return self.sigmoid(self.output(x))
 
-data = pd.read_csv('data.csv', header=None)
+data = pd.read_csv('01. MLP Binary Classification\data.csv',header=None)
 
 
 x = T.from_numpy(data[[0, 1]].values).float()
@@ -36,7 +36,7 @@ y_train = y[:80]
 x_test = x[80:]
 y_test = y[80:]
 
-print(len(y_test))
+
 
 
 model = Binary()
@@ -70,7 +70,7 @@ for epoch in range(epochs):
 
     
 
-    # evaluating
+    # evaluating 
     model.eval()
     with T.no_grad():
         test_probs = model.forward(x_test)
@@ -81,9 +81,9 @@ for epoch in range(epochs):
 
         accuracy = sum(classes == y_test)/len(test_probs)
         accuracies.append(accuracy.item())
-
+    model.train()
     print(f'epoch: {epoch} | loss: {loss.item()} | accuracy: {accuracy.item()}')
-
+    
 plt.plot(train_losses, label='Train loss')
 plt.plot(test_losses, label='Test loss')
 plt.plot(accuracies, label='Accuracy')
