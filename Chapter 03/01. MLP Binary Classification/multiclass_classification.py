@@ -1,3 +1,5 @@
+#  https://androidkt.com/calculate-total-loss-and-accuracy-at-every-epoch-and-plot-using-matplotlib-in-pytorch/#:~:text=If%20you%20would%20like%20to,the%20total%20amount%20of%20classifications.
+
 import torch as T
 import torch.nn as nn
 import torch.nn.functional as F

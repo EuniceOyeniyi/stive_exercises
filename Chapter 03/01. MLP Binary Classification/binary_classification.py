@@ -67,7 +67,7 @@ for epoch in range(epochs):
     optimizer.step()
 
     train_losses.append(loss.item())
-
+    
     
 
     # evaluating 
@@ -84,9 +84,11 @@ for epoch in range(epochs):
     model.train()
     print(f'epoch: {epoch} | loss: {loss.item()} | accuracy: {accuracy.item()}')
     
+    
 plt.plot(train_losses, label='Train loss')
 plt.plot(test_losses, label='Test loss')
 plt.plot(accuracies, label='Accuracy')
 plt.legend()
 plt.show()
+plt.savefig('fig1')
 
