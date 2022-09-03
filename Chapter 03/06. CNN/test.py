@@ -1,13 +1,16 @@
+from unittest import TestLoader
 import torch
+import cv2
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import numpy as np
 
 from datahandler import data
 from mnist_model import CNNmnist
-
-# https://discuss.pytorch.org/t/view-classify-in-module-helper/30279/6
-
+model = CNNmnist()
+state_dict = torch.load('model_ 0.99.pth')
+model.load_state_dict(state_dict)
+trainloder,testLoader = data()
 def view_classify(img, ps):
 
     ps = ps.data.numpy().squeeze()
@@ -23,18 +26,8 @@ def view_classify(img, ps):
     ax2.set_xlim(0, 1.1)
     plt.show()
 
-
-#loding the model and the datasets 
-model = CNNmnist()
-state_dict = torch.load('model_ 0.99.pth')
-model.load_state_dict(state_dict)
-trainloader,testloader = data()
-
-#Checking if the prediction is correct
-
-images, labels = next(iter(testloader))
-# images = images.view(images.shape[0], -1)
-# with torch.no_grad():
-#     output =model.forward(images[0,:])
-# ps = torch.argmax(output, dim=1)
-print(images.shape[0])
+images, labels = next(iter(testLoader))
+# print(images[0].shape)
+log_ps = model.forward(images[0].unsqueeze(0))
+ps = torch.exp(log_ps)
+view_classify(images[0], ps)
