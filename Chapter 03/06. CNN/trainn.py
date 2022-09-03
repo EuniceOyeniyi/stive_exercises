@@ -16,7 +16,7 @@ model.to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.0001)
 criterion = nn.NLLLoss()
 
-epochs = 150
+epochs = 15
 train_losses = []
 test_losses = []
 accuracies = []
@@ -87,4 +87,11 @@ for e in range(epochs):
 
     model.train()
     print(f'epoch: {e} | loss: {loss2.item()} | accuracy: {accuracy.item()}')
+
+plt.figure(figsize=(15,8))
+plt.plot(train_losses, label='Train loss')
+plt.plot(test_losses, label='Test loss')
+plt.plot(accuracies, label='Accuracy')
+plt.legend()
+plt.show()
 
