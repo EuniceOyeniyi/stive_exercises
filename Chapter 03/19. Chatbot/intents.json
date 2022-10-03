@@ -83,6 +83,7 @@
     {
       "tag": "miscellaneous",
       "patterns": [
+        "joke",
         "Tell me a joke!",
         "Tell me something funny!",
         "Let me laugh!"
